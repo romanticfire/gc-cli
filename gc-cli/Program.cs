@@ -34,10 +34,13 @@ namespace gc_cli
 
             #region 命令
             var rootCommand = new RootCommand("Package Manager for GrassCutter");
-            var addCommand = new Command("add", "添加插件");  //完成
+            var addpkgCommand = new Command("addpkg", "添加Package");  //完成
+            var addpluCommand = new Command("addplu", "添加插件");  //完成
             var updateCommand = new Command("update", "更新仓库信息");  //完成
-            var listrepoCommand = new Command("listrepo", "列出仓库中的插件");  //完成
-            var removeCommand = new Command("remove", "删除已安装的插件");  //完成
+            var listpkgiCommand = new Command("listpkgi", "列出仓库中的插件");  //完成
+            var listpluiCommand = new Command("listplui", "列出仓库中Package");  //完成
+            var rmpkgCommand = new Command("rmpkg", "删除已安装的Pakcage");  //完成
+            var rmpluCommand = new Command("rmplu", "删除已安装的Pakcage");  //完成
             var listCommand = new Command("list", "列出已安装的插件");  //完成
             var installCommand = new Command("install", "在文件夹下安装GrassCutter");  //完成
             var runCommand = new Command("run", "开启服务器");  //咕咕
@@ -58,13 +61,6 @@ namespace gc_cli
                 name: "-t",
                 description: "安装资源类型",
                 getDefaultValue: () => InstallType.core
-
-                );
-
-            var AddOpthon = new Option<FileType>(
-                name: "-t",
-                description: "安装资源类型",
-                getDefaultValue: () => FileType.plu
 
                 );
 
@@ -123,60 +119,67 @@ namespace gc_cli
             }, InstallOpthon, verOption, ProxyOption);
 
 
-            listrepoCommand.AddOption(AddOpthon);
-            listrepoCommand.SetHandler(async (AType) => 
+            listpkgiCommand.SetHandler(async () => 
             {
-                switch (AType)
-                {
-                    case FileType.plu: await Handlers.Plugin.ListRepo(); break;
-                    case FileType.pac: await Handlers.Packages.ListRepo(); break;
-                    default:
-                        break;
-                }
+                    //case FileType.plu: await Handlers.Plugin.ListRepo(); break;
+                    await Handlers.Packages.ListRepo(); 
 
-            },AddOpthon);
+            });
+            listpluiCommand.SetHandler(async () =>
+            {
+                //case FileType.plu: await Handlers.Plugin.ListRepo(); break;
+                await Handlers.Plugin.ListRepo();
+
+            });
 
             listCommand.SetHandler(async () => { await Handlers.Plugin.List(); });
 
-            addCommand.AddArgument(addArgument);
-            addCommand.AddOption(AddOpthon);
-            addCommand.AddOption(ProxyOption);
-            addCommand.SetHandler(async (pkgs,AType, proxy) => 
+            addpkgCommand.AddArgument(addArgument);
+            addpkgCommand.AddOption(ProxyOption);
+            addpkgCommand.SetHandler(async (pkgs, proxy) => 
             {
-                switch (AType)
-                {
-                    case FileType.plu: await Handlers.Plugin.Add(pkgs,proxy); break;
-                    case FileType.pac: await Handlers.Packages.Add(pkgs,proxy); break;
-                    default:
-                        break;
-                }
+                 //await Handlers.Plugin.Add(pkgs,proxy); 
+                 await Handlers.Packages.Add(pkgs,proxy); 
                  
-            }, addArgument,AddOpthon, ProxyOption);
-
-            removeCommand.AddArgument(removeArgument);
-            removeCommand.AddOption(AddOpthon);
-
-            removeCommand.SetHandler(async (pkgs,AType) => 
+            }, addArgument, ProxyOption);
+            addpluCommand.AddArgument(addArgument);
+            addpluCommand.AddOption(ProxyOption);
+            addpluCommand.SetHandler(async (pkgs, proxy) =>
             {
-                switch (AType)
-                {
-                    case FileType.plu: await Handlers.Plugin.Remove(pkgs); break;
-                    case FileType.pac: await Handlers.Packages.Remove(pkgs); break;
-                    default:
-                        break;
-                }
+                //await Handlers.Plugin.Add(pkgs,proxy); 
+                await Handlers.Plugin.Add(pkgs, proxy);
+
+            }, addArgument, ProxyOption);
+
+            rmpluCommand.AddArgument(removeArgument);
+            rmpluCommand.SetHandler(async (pkgs) => 
+            {
+                    await Handlers.Plugin.Remove(pkgs);
+                    //await Handlers.Packages.Remove(pkgs);
+                    
                 
-            }, removeArgument,AddOpthon);
+            }, removeArgument);
+            rmpkgCommand.AddArgument(removeArgument);
+            rmpkgCommand.SetHandler(async (pkgs) =>
+            {
+                await Handlers.Packages.Remove(pkgs);
+                //await Handlers.Packages.Remove(pkgs);
+
+
+            }, removeArgument);
 
             runCommand.SetHandler(() => 
             {
                 Handlers.Run.Start();
             });
 
-            rootCommand.AddCommand(addCommand);
+            rootCommand.AddCommand(addpkgCommand);
+            rootCommand.AddCommand(addpluCommand);
             rootCommand.AddCommand(updateCommand);
-            rootCommand.AddCommand(listrepoCommand);
-            rootCommand.AddCommand(removeCommand);
+            rootCommand.AddCommand(listpluiCommand);
+            rootCommand.AddCommand(listpkgiCommand);
+            rootCommand.AddCommand(rmpkgCommand);
+            rootCommand.AddCommand(rmpluCommand);
             rootCommand.AddCommand(listCommand);
             rootCommand.AddCommand(installCommand);
             rootCommand.AddCommand(runCommand);
