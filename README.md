@@ -5,7 +5,8 @@ Grasscutter 资源管理助手(确信)
 
 ## 展示
 
-![命令帮助](Preview/pkg.jpg)
+![包管理](Preview/pkg.jpg)
+![运行](Preview/run.jpg)
 
 ## 安装
 
@@ -40,7 +41,7 @@ Grasscutter 资源管理助手(确信)
 ```
 gc-cli update
 ```
-2. 安装核心文件
+2. 安装核心文件（后面加上 -v 1.2.2-dev-0141dce 即可安装指定版本！）
 ```
 gc-cli install
 ```
@@ -56,7 +57,7 @@ gc-cli install -t res
 gc-cli listplui
 ```
 + 既然知道了插件名称那么接下来就可以安装所需的插件啦！  
-//下面的命令安装了 GCAuth GCAuth-OAuth 两个插件
+`下面的命令安装了 GCAuth GCAuth-OAuth 两个插件`
 ```
 gc-cli addplu GCAuth GCAuth-OAuth
 ```
