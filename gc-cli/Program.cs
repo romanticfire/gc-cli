@@ -16,6 +16,13 @@ namespace gc_cli
             res,
         }
 
+        enum FileType
+        {
+            //plugin
+            plu,
+            //package
+            pac,
+        }
         static async Task<int> Main(string[] args)
         {
             //AnsiConsole.Write(
@@ -54,6 +61,13 @@ namespace gc_cli
 
                 );
 
+            var AddOpthon = new Option<FileType>(
+                name: "-t",
+                description: "安装资源类型",
+                getDefaultValue: () => FileType.plu
+
+                );
+
             var verOption = new Option<string>(
                 name: "-v",
                 description: "指定安装的版本"
@@ -85,6 +99,7 @@ namespace gc_cli
                 await Handlers.Core.Update(proxy);
                 await Handlers.Plugin.Update(proxy);
                 await Handlers.Resources.Update(proxy);
+                await Handlers.Packages.Update(proxy);
                 MsgHelper.I("源信息更新完成");
             }, ProxyOption);
 
@@ -108,16 +123,50 @@ namespace gc_cli
             }, InstallOpthon, verOption, ProxyOption);
 
 
+            listrepoCommand.AddOption(AddOpthon);
+            listrepoCommand.SetHandler(async (AType) => 
+            {
+                switch (AType)
+                {
+                    case FileType.plu: await Handlers.Plugin.ListRepo(); break;
+                    case FileType.pac: await Handlers.Packages.ListRepo(); break;
+                    default:
+                        break;
+                }
 
-            listrepoCommand.SetHandler(async () => { await Handlers.Plugin.ListRepo(); });
+            },AddOpthon);
 
             listCommand.SetHandler(async () => { await Handlers.Plugin.List(); });
 
             addCommand.AddArgument(addArgument);
-            addCommand.SetHandler(async (pkgs, proxy) => { await Handlers.Plugin.Add(pkgs); }, addArgument, ProxyOption);
+            addCommand.AddOption(AddOpthon);
+            addCommand.AddOption(ProxyOption);
+            addCommand.SetHandler(async (pkgs,AType, proxy) => 
+            {
+                switch (AType)
+                {
+                    case FileType.plu: await Handlers.Plugin.Add(pkgs,proxy); break;
+                    case FileType.pac: await Handlers.Packages.Add(pkgs,proxy); break;
+                    default:
+                        break;
+                }
+                 
+            }, addArgument,AddOpthon, ProxyOption);
 
             removeCommand.AddArgument(removeArgument);
-            removeCommand.SetHandler(async (pkgs) => { await Handlers.Plugin.Remove(pkgs); }, removeArgument);
+            removeCommand.AddOption(AddOpthon);
+
+            removeCommand.SetHandler(async (pkgs,AType) => 
+            {
+                switch (AType)
+                {
+                    case FileType.plu: await Handlers.Plugin.Remove(pkgs); break;
+                    case FileType.pac: await Handlers.Packages.Remove(pkgs); break;
+                    default:
+                        break;
+                }
+                
+            }, removeArgument,AddOpthon);
 
             runCommand.SetHandler(() => 
             {

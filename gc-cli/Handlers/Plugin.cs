@@ -120,6 +120,11 @@ namespace gc_cli.Handlers
 
                 var downLoadUrl = pluginInfo.assets[0].browser_download_url;
 
+                if (Proxy)
+                {
+                    downLoadUrl = ProxyHelper.GetRawProxy(downLoadUrl);
+                }
+
                 var filep = Path.GetFileName(downLoadUrl);
 
                 AnsiConsole.Markup(Markup.Escape($"[{index}/{pkgs.Count}] 正在准备安装 {item} {pluginInfo.tag_name}\n"));
@@ -147,7 +152,6 @@ namespace gc_cli.Handlers
 
 
             EnsureInit();
-
 
 
             if (!EnvHandler.CheckMetaData(PLUGIN_METADATA_FILE))
