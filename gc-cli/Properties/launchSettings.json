@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "gc-cli": {
+      "commandName": "Project",
+      "commandLineArgs": "run",
+      "workingDirectory": "D:\\Server\\Server-2.7-dev\\GPMTEST"
+    }
+  }
+}
