@@ -1,17 +1,18 @@
-# GCPkgMgr
-A package manager for grasscutter
+# ~~GCPkgMgr~~ gc-cli
+Grasscutter 资源管理助手(确信)
+
+
 
 ## 展示
 
-![命令帮助](Preview/default.png)
-![插件列表以及安装](Preview/install.jpg)
-![插件删除](Preview/remove.png)
+![包管理](Preview/pkg.jpg)
+![运行](Preview/run.jpg)
 
 ## 安装
 
 1. 前往 [Release](https://github.com/SwetyCore/GCPkgMgr/releases) 寻找操作系统对应的压缩包
 2. 解压到任意目录
-3. + 对于 Windows ：添加环境变量
+3. + 对于 Windows ：添加环境变量（偷懒可以直接把下载的exe文件放在要安装的文件夹里）
    + 对于 Linux : 在 gc 目录下添加指向 gpm 的软连接即可
 4. 开始使用吧！
    
@@ -31,29 +32,62 @@ A package manager for grasscutter
 
 
 ## 命令帮助
+> 小小的提示一下：在命令后添加 -p 选项可以启用代理下载功能喔! 可能对无法正常访问 github 的小伙伴有帮助！
 
+首先把下载下来的文件拖到想安装gc的文件夹里  
+然后打开终端(cmd 或者 powershell)
+### 快速开始
+1. 当然是更新源啦  
 ```
-Description:
-  Package Manager for GrassCutter
+gc-cli update
+```
+2. 安装核心文件（后面加上 -v 1.2.2-dev-0141dce 即可安装指定版本！）
+```
+gc-cli install
+```
+3. 安装资源文件
+```
+gc-cli install -t res
+```
+> 其实在这一步就算安装完成了，直接执行 `gc-cli run` 启动服务器也没有什么问题。
 
-Usage:
-  gpm [command] [options]
+### 插件相关
++ 要安装插件肯定要知道插件的名称啦，使用下面的命令列出所有可使用的插件
+```
+gc-cli listplui
+```
++ 既然知道了插件名称那么接下来就可以安装所需的插件啦！  
+`下面的命令安装了 GCAuth GCAuth-OAuth 两个插件`
+```
+gc-cli addplu GCAuth GCAuth-OAuth
+```
++ 插件不想要了？使用下面的命令删除它！
+```
+gc-cli rmplu GCAuth-OAuth
+```
+### Package相关
++ 同样是列出所有可用的Package！
+```
+gc-cli listpkgi
+```
++ 然后添加你想要的  
 
-Options:
-  --version       Show version information
-  -?, -h, --help  Show help and usage information
+  `keystore.p12` 文件应该是服务器启用 https 必需的东西，建议安装。
+```
+gc-cli addpkg keystore
+```
++ 删除也是一样的
+```
+gc-cli rmpkg keystore
+```
 
-Commands:
-  init             已弃用
-  add <要添加的包名>     添加插件
-  update           更新仓库信息
-  listrepo         列出仓库中的插件
-  remove <要删除的包名>  删除已安装的插件
-  list             列出已安装的插件
-  install          在文件夹下安装GrassCutter
-  ```
+### 最后就是开启服务器啦
+输入下面的指令，然后回车！如果不出意外服务器就正式跑起来了，记得修改 config.json 文件喔！
+```
+gc-cli run
+```
 
 ## 提醒
-此软件功能尚未完善，~~并且只编译了 Windows 版本。
-对于有需要的人请自行下载编译其他平台的版本。~~
+此软件正处于测试中，并且只编译了 Windows 版本。
+对于有需要的人请自行下载编译其他平台的版本。
 
