@@ -143,7 +143,7 @@ namespace gc_cli.Handlers
                     downLoadUrl = ProxyHelper.GetRawProxy(downLoadUrl);
                 }
 
-                AnsiConsole.Markup(Markup.Escape($"[{index}/{pkgs.Count}] 正在准备安装 {item} {temp.name}\n"));
+                AnsiConsole.Markup(Markup.Escape($"[{index}/{pkgs.Count}] 正在准备安装 {temp.name}\n"));
 
 
                 var table1 = new Table();
