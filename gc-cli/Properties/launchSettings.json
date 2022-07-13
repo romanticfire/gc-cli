@@ -2,7 +2,7 @@
   "profiles": {
     "gc-cli": {
       "commandName": "Project",
-      "commandLineArgs": "add -p -tpac GCAuthOAuthTwitterTheme",
+      "commandLineArgs": "install -tres",
       "workingDirectory": "D:\\Server\\Server-2.7-dev\\GPMTEST"
     }
   }

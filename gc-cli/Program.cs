@@ -104,12 +104,19 @@ namespace gc_cli
             installCommand.AddOption(verOption);
             installCommand.SetHandler(async(IType, ver, proxy) =>
             {
-                string sha = new Common.CoreVersionHelper.VersionInfo(ver).GetSha();
 
                 switch (IType)
                 {
-                    case InstallType.res: await Handlers.Resources.Install(proxy); break;
-                    case InstallType.core: await Handlers.Core.Install(sha, proxy); break;
+                    case InstallType.res: {
+
+
+                            await Handlers.Resources.Install(ver,proxy);
+
+                            } break;
+                    case InstallType.core: {
+                            string sha = new Common.CoreVersionHelper.VersionInfo(ver).GetSha();
+                            await Handlers.Core.Install(sha, proxy); 
+                        } break;
                     default:
                         break;
                 }

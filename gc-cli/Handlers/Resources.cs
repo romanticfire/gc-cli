@@ -74,7 +74,7 @@ namespace gc_cli.Handlers
 
         }
 
-        public static async Task Install(bool proxy = false)
+        public static async Task Install(string ver,bool proxy = false)
         {
 
             EnsureInit();
@@ -91,20 +91,36 @@ namespace gc_cli.Handlers
             {
                 var selList = from r in metadata select r.repo;
 
+                if (!string.IsNullOrEmpty(ver))
+                {
+                    selrepo = ver;
+                }
+                else
+                {
 
-                selrepo = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("Select the repo you want to install.")
-                    .PageSize(10)
-                    .MoreChoicesText("[grey](Move up and down to reveal more items)[/]")
-                    .AddChoices(
-                        selList.ToArray<string>()
-                    ));
+                    selrepo = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("选择一个你要下载的项目.")
+                        .PageSize(10)
+                        .MoreChoicesText("[grey](Move up and down to reveal more items)[/]")
+                        .AddChoices(
+                            selList.ToArray<string>()
+                        ));
+                    AnsiConsole.WriteLine($"You selected {selrepo}");
+
+                }
 
 
-                AnsiConsole.WriteLine($"You selected {selrepo}");
+
 
                 selMetadata = (metadata.Where(r => r.repo == selrepo)).FirstOrDefault();
+
+
+                if (selMetadata==null)
+                {
+                    MsgHelper.E($"未找到名称为 {ver} 的资源，请检查拼写后重试！");
+                    return;
+                }
             }
             else
             {
