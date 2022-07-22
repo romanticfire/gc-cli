@@ -89,7 +89,7 @@ namespace gc_cli.Handlers
 
             if (metadata.Count > 1)
             {
-                var selList = from r in metadata select r.repo;
+                var selList = from r in metadata select r.name;
 
                 if (!string.IsNullOrEmpty(ver))
                 {
@@ -113,7 +113,7 @@ namespace gc_cli.Handlers
 
 
 
-                selMetadata = (metadata.Where(r => r.repo == selrepo)).FirstOrDefault();
+                selMetadata = (metadata.Where(r => r.name == selrepo)).FirstOrDefault();
 
 
                 if (selMetadata==null)

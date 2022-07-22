@@ -3,7 +3,7 @@
     "gc-cli": {
       "commandName": "Project",
       "commandLineArgs": "install -tres",
-      "workingDirectory": "D:\\Server\\Server-2.7-dev\\GPMTEST"
+      "workingDirectory": ""
     }
   }
 }
