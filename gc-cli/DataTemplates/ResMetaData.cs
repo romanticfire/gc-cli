@@ -13,7 +13,7 @@ namespace gpm.DataTemplates
             /// </summary>
             public string target { get; set; }
         }
-
+  
         public class Archive
         {
             /// <summary>
@@ -36,6 +36,12 @@ namespace gpm.DataTemplates
             /// 
             /// </summary>
             public Archive archive { get; set; }
+            
+            
+            /// <summary>
+            /// 
+            /// </summary>
+            public string name { get; set; }    
         }
 
     }
