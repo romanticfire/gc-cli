@@ -126,9 +126,14 @@ namespace gc_cli.Handlers
             {
                 selMetadata = metadata.FirstOrDefault();
             }
-
+            
 
             var downLoadUrl = selMetadata.archive.url;
+
+            if (selMetadata.type=="anonfiles")
+            {
+                downLoadUrl =await Common.AnonfileTools.GetDownloadUrl(downLoadUrl);
+            }
             if (proxy)
             {
                 downLoadUrl = ProxyHelper.GetRawProxy(downLoadUrl);

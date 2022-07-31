@@ -138,10 +138,21 @@ namespace gc_cli.Handlers
 
                 var downLoadUrl = temp.file;
 
-                if (Proxy)
+                
+                if (temp.type=="anonfiles")
                 {
-                    downLoadUrl = ProxyHelper.GetRawProxy(downLoadUrl);
+                    MsgHelper.W($"类型为{temp.type}的文件不支持内置代理下载，将忽略-p选项!");
+                    downLoadUrl =await Common.AnonfileTools.GetDownloadUrl(downLoadUrl);
                 }
+                else
+                {
+                    if (Proxy)
+                    {
+                        downLoadUrl = ProxyHelper.GetRawProxy(downLoadUrl);
+                    }
+                }
+                
+                
 
                 AnsiConsole.Markup(Markup.Escape($"[{index}/{pkgs.Count}] 正在准备安装 {temp.name}\n"));
 

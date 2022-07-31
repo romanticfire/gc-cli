@@ -191,7 +191,6 @@ namespace gc_cli
             rootCommand.AddCommand(installCommand);
             rootCommand.AddCommand(runCommand);
 
-
             return await rootCommand.InvokeAsync(args);
         }
     }
