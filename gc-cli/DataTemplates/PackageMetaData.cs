@@ -20,6 +20,12 @@ namespace gc_cli.DataTemplates
             /// 
             /// </summary>
             public string author { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string type { get; set; }
+            
             /// <summary>
             /// 
             /// </summary>

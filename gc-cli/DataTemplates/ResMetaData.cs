@@ -37,6 +37,10 @@ namespace gpm.DataTemplates
             /// </summary>
             public Archive archive { get; set; }
             
+            /// <summary>
+            /// 
+            /// </summary>
+            public string type { get; set; }
             
             /// <summary>
             /// 
